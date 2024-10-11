@@ -379,14 +379,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2b40bd9636d11429c059ee0cda7a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainText: {fileID: 0}
-  playerHealth: 100
-  playerAttack: 10
-  playerLevel: 1
-  playerExperience: 0
-  attackGain: 0.25
+  health: 0
+  maxHealth: 100
+  attack: 10
+  level: 0
+  attackIncrease: 1.25
+  experience: 0
+  maxExperience: 100
   enemyHealth: 0
-  enemyAttack: 5
+  maxEnemyHealth: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,103 +1,68 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using JetBrains.Annotations;
-using UnityEngine.EventSystems;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI mainText;
 
-    public int playerHealth = 100;
-    public int playerAttack = 10;
-    public int playerLevel = 1;
-    public int playerExperience = 0;
-    public float attackGain = 0.25f;
+    public int health = 0;
+    public int maxHealth = 100;
+    public int attack = 10;
+    public int level = 0;
+    public float attackIncrease = 1.25f;
+    public int experience = 0;
+    public int maxExperience = 100;
 
     public int enemyHealth = 0;
-    public int enemyAttack = 5;
+    public int maxEnemyHealth = 100;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Welcome to the Game Adventurer!");
-        Debug.Log("It's time to slay some enemies!");
-        Debug.Log("When an enemy appears, press the A key to attack!");
-        Debug.Log("To begin your adventure, press B!");
 
-        enemyHealth += Random.Range(100, 150);
+        
+        enemyHealth = Random.Range(enemyHealth, maxEnemyHealth);
 
+        level += 1;
+        Debug.Log("You are level " + level);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.B))
-        {
-            Debug.Log("An enemy appears out of nowhere, you know what to do adventurer!");
-        }
-
         Attack();
         LevelUp();
-
-        if (enemyHealth < 1) 
-        {
-            EnemyKilled();
-            enemyHealth = Random.Range(100, 150);
-        } 
-
-   
-
-        //This is player attack function
+        NewEnemy();
+                                        
         void Attack()
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyUp(KeyCode.A))
             {
-                enemyHealth -= playerAttack;
-
+                enemyHealth -= attack;
+                Debug.Log("Player Did " + attack + " Damage");
             }
+
+
         }
       
-        //This function logs when an enemy has been killed and updates player on current XP
-        void EnemyKilled()
-        {
-            playerExperience += Random.Range(0, 100);
-            Debug.Log("You slayed and enemy!");
-            Debug.Log("Your current XP is " + playerExperience + "/100XP");
-            
-        }
-
         void LevelUp()
         {
-            if (playerExperience >= 100)
+            if (Input.GetKeyUp(KeyCode.L))
             {
-                Debug.Log("You can now level up!");
-                Debug.Log("Press L to increase level!");
-            }
-            if (Input.GetKeyDown (KeyCode.L))
+                level += 1;
+                attack += (int)1.25f * 10; 
+                Debug.Log("You are now level " + level + ". And your Attack Damage is now" + attack);
+            }                 
+        }
+
+        void NewEnemy()
+        {
+            if (enemyHealth <= 0)
             {
-                playerLevel++;
-                Debug.Log("You are now level " + playerLevel + "!");
-                Debug.Log("A new enemy appears...");
-            }
-            if (playerExperience >= 100)
-            {
-                playerExperience = 0;
+                enemyHealth = Random.Range(enemyHealth,maxEnemyHealth);
             }
         }
     }
-
-  
-    
-
-
-
-
-
-
-
 
 }

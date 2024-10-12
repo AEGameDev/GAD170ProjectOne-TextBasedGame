@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int maxHealth = 100;
     public int attack = 10;
     public int level = 0;
-    public float attackIncrease = 1.25f;
+    public float attackStatUp = 1.25f;
     public int experience = 0;
     public int maxExperience = 501;
 
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Attack();
+        AttackIncrease();
         Experience();
         LevelUpNotification();
         LevelUp();                
@@ -76,6 +77,14 @@ public class GameManager : MonoBehaviour
         {
             enemyHealth -= attack;
             Debug.Log("Player Did " + attack + " Damage! " + "Enemy has " + enemyHealth + "HP");
+        }
+    }
+
+    void AttackIncrease()
+    {
+        if (level == 2)
+        {
+            attack = (((int)1.25f / 10) * 100);
         }
     }
 

@@ -8,13 +8,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    public int health = 0;
-    public int maxHealth = 100;
-    public int attack = 10;
+    public int attack = 0;
     public int level = 0;
     public float attackStatUp = 1.25f;
     public int experience = 0;
-    public int maxExperience = 501;
 
     public int enemyHealth = 0;
     public int enemyLevel = 0;
@@ -23,6 +20,11 @@ public class GameManager : MonoBehaviour
     private bool level3Logged = false;
     private bool level4Logged = false;
     private bool level5Logged = false;
+
+    private bool level2Attack = false;
+    private bool level3Attack = false;
+    private bool level4Attack = false;
+    
 
     private bool gameOver = false;
     
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
         LevelUp();                
         NewEnemy();
         EndGame();
-        return;
+        
     }
 
     void Attack()
@@ -82,9 +84,26 @@ public class GameManager : MonoBehaviour
 
     void AttackIncrease()
     {
-        if (level == 2)
+        if (level == 2 && !level2Attack)
         {
-            attack = (((int)1.25f / 10) * 100);
+            float attacklvl2 = attackStatUp * (float)attack;
+            attack = (int)attacklvl2;
+            Debug.Log("Your Attack Increased To: " + attack);
+            level2Attack = true;
+        }
+        if (level == 3 && !level3Attack)
+        {
+            float attacklvl3 = attackStatUp * (float)attack;
+            attack = (int)attacklvl3;
+            Debug.Log("Your Attack Increased To: " + attack);
+            level3Attack = true;
+        }
+        if (level == 4 && !level4Attack)
+        {
+            float attacklvl4 = attackStatUp * (float)attack;
+            attack = (int)attacklvl4;
+            Debug.Log("Your Attack Increased To: " + attack);
+            level4Attack = true;
         }
     }
 
@@ -184,6 +203,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("You have completed the Game");
             gameOver = true;
+
         }
     }
 }

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public int attack = 0;
     public int level = 0;
-    public float attackStatUp = 1.25f;
+    private float attackStatUp = 1.25f;
     public int experience = 0;
 
     public int enemyHealth = 0;
@@ -24,19 +24,28 @@ public class GameManager : MonoBehaviour
     private bool level2Attack = false;
     private bool level3Attack = false;
     private bool level4Attack = false;
-    
+
+    private bool weaponChosen = false;
+    private bool endOfStart = false;
 
     private bool gameOver = false;
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("*A Deranged Dwarf Appears Out Of Nowhere*");
+        Debug.Log("Ingund: Adventurer! You made it!");
+        Debug.Log("Ingund: I was getting worried that we were on our own...");
+        Debug.Log("Ingund: Let me get you up to speed. We are fighting the 'Black Titans' demonic army!");
+        Debug.Log("Ingund: You'll need to take up arms against them! *Ingund gestures towards the weapons rack*");
+        Debug.Log("Ingund: You have a choice Adventurer! *Press 1 for an Axe, 2 for a Sword or 3 for a Mace*");
+
         level += 1;
 
         if (enemyHealth <= 0)
         {
-            enemyLevel = Random.Range(0, 5);
+            enemyLevel = Random.Range(1, 6);
             if (enemyLevel == 1)
             {
                 enemyHealth = 10;
@@ -63,14 +72,45 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !weaponChosen)
+        {
+            Debug.Log("*Player picks up the Axe*");
+            Debug.Log("*Ingund Bellows* Axe-citing Times Ahead!");
+            Debug.Log("*Press Space To Continue*");
+            weaponChosen = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !weaponChosen)
+        {
+            Debug.Log("*Player chose a Sword*");
+            Debug.Log("*Ingund Howls* Death By a Thousand Stabs!");
+            Debug.Log("*Press Space To Continue*");
+            weaponChosen = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !weaponChosen)
+        {
+            Debug.Log("*Player grabs the Mace*");
+            Debug.Log("*Ingund Roars* A Mighty Choice!");
+            Debug.Log("*Press Space To Continue*");
+            weaponChosen = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !endOfStart)
+        {
+            Debug.Log("*VWOOMP* A Void Opens & A Level " + enemyLevel + " Demon Appears!");
+            Debug.Log("Ingund: One of the Black Titans minions has set upon us!");
+            Debug.Log("Ingund: Quick adventurer, destroy this foul beast!");
+            Debug.Log("*Press A to Attack*");
+            endOfStart = true;
+        }
+
         Attack();
         AttackIncrease();
+        EnemyDeadDead();
         Experience();
         LevelUpNotification();
-        LevelUp();                
-        NewEnemy();
+        LevelUp();
+        NewEnemy();                      
         EndGame();
-        
+
     }
 
     void Attack()
@@ -78,7 +118,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             enemyHealth -= attack;
-            Debug.Log("Player Did " + attack + " Damage! " + "Enemy has " + enemyHealth + "HP");
+            Debug.Log("Player Attack Did " + attack + " Damage!");
+            Debug.Log("Enemy has " + enemyHealth + "HP Remaining!");
         }
     }
 
@@ -109,10 +150,11 @@ public class GameManager : MonoBehaviour
 
     void NewEnemy()
     {
-        if (enemyHealth <= 0)
+        if (enemyHealth < 1)
         {
-            Debug.Log("Enemy Slain & A New One Appears");
-            enemyLevel = Random.Range(0, 5);
+            Debug.Log("*RHEEEEEKK* The Demon is Slain! *VWOOMP* Another Demon Spawns...");
+
+            enemyLevel = Random.Range(1, 6);
             if (enemyLevel == 1)
             {
                 enemyHealth = 10;
@@ -133,6 +175,13 @@ public class GameManager : MonoBehaviour
             {
                 enemyHealth = 30;
             }
+        }
+    }
+    void EnemyDeadDead()
+    {
+        if (enemyHealth < 0)
+        {
+            Debug.Log("That Demons Definitely DEAD DEAD!");
         }
     }
 
@@ -194,16 +243,23 @@ public class GameManager : MonoBehaviour
         else if (experience >400 && experience <500 && Input.GetKeyDown(KeyCode.L))
         {
             level = 5;
-            Debug.Log("You are level 5");
+            Debug.Log("You have reached the Max Level: " + level);
         }
     }    
     void EndGame()
     {
         if (level == 5 && !gameOver)
         {
-            Debug.Log("You have completed the Game");
-            gameOver = true;
-
+            Debug.Log("Ingund: Thank you for your service Adventurer!");
+            Debug.Log("Ingund: You have saved us! *Ingund Tears Up*");
+            Debug.Log("Ingund: Go on your way now, QUICKLY! Before I Weep!");
+            Debug.Log("*Adventure Complete* Thanks for Playing, Press Q to End Game!");
+            gameOver = true;           
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+           Debug.Break();
         }
     }
+
 }
